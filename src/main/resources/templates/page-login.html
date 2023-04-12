@@ -21,7 +21,7 @@
                         <div class="row no-gutters">
                             <div class="col-xl-12">
                                 <div class="auth-form">
-                                    <h4 class="text-center mb-4">Login in your account</h4>
+                                    <h4 class="text-center mb-4">Login in your Admin account</h4>
                                     
                                     <th:block th:if="${session.errMsg}">
                                     	<h2>Invalid Credentials</h2>
@@ -53,7 +53,7 @@
                                         </div>
                                     </form>
                                     <div class="new-account mt-3">
-                                        <p>Don't have an account? <a class="text-primary" href="./page-register.html">Sign up</a></p>
+                                        <p>Don't have an account? <a class="text-primary" th:href="@{/reg}">Sign up</a></p>
                                     </div>
                                 </div>
                             </div>

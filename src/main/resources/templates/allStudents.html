@@ -186,10 +186,10 @@
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                                 class="icon icon-app-store"></i><span class="nav-text">Teacher</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="./app-profile.html">Add Teacher</a></li>
-                            <li><a href="./app-profile.html">Update Teacher</a></li>
-                            <li><a href="./app-profile.html">Delete Teacher</a></li>
-                            <li><a href="./app-profile.html">All Teacher</a></li>
+                            <li><a th:href="@{/editPage}">Update Teacher</a></li>
+                            <li><a th:href="@{/deletePage}">Delete Teacher</a></li>
+                            <li><a th:href="@{/all}">All Teacher</a></li>
+							<li><a th:href="@{/addteacher}">Add Teacher</a></li>
                             <!-- <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Email</a>
                                 <ul aria-expanded="false">
                                     <li><a href="./email-compose.html">Compose</a></li>
@@ -218,8 +218,8 @@
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                                 class="icon icon-form"></i><span class="nav-text">Course</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="./app-profile.html">All Courses</a></li>
-                            <li><a href="./app-profile.html">Delete Student</a></li>
+                            <li><a th:href="@{/allCoursesAdmin}">All Courses</a></li>
+                            <li><a th:href="@{/allStudents}">Delete Student</a></li>
                             <!-- <li><a href="./chart-flot.html">Flot</a></li>
                             <li><a href="./chart-morris.html">Morris</a></li>
                             <li><a href="./chart-chartjs.html">Chartjs</a></li>
@@ -343,7 +343,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Teachers Datatable</h4>
+                                <h4 class="card-title">Students Datatable</h4>
                             </div>
                             <div class="card-body" th:switch="${students}">
                                 <h2 th:case="null">No users yet!</h2>

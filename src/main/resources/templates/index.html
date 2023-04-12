@@ -13,8 +13,6 @@
     <link href="./vendor/jqvmap/css/jqvmap.min.css" rel="stylesheet">
     <link href="./css/style.css" rel="stylesheet">
 
-
-
 </head>
 
 <body>
@@ -223,8 +221,8 @@
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                                 class="icon icon-form"></i><span class="nav-text">Course</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="./app-profile.html">All Courses</a></li>
-                            <li><a href="./app-profile.html">Delete Student</a></li>
+                            <li><a th:href="@{/allCoursesAdmin}">All Courses</a></li>
+                            <li><a th:href="@{/allStudents}">Delete Student</a></li>
                             <!-- <li><a href="./chart-flot.html">Flot</a></li>
                             <li><a href="./chart-morris.html">Morris</a></li>
                             <li><a href="./chart-chartjs.html">Chartjs</a></li>
