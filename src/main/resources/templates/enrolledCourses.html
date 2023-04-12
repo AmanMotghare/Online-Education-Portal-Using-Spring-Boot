@@ -411,35 +411,21 @@
                                         <thead>
                                             <tr>
                                                 <th>Course Title</th>
-                                                <th>Amount</th>
-                                                <th>Email</th>
-                                                <th>Date</th>
-                                                <th>Status</th>
+                                                
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         
-                                            <tr th:each="c : ${allCoursesList}">
-                                                <td th:text="${c.courseTitle}">
+                                            <tr th:each="c : ${courses}">
+                                                <td th:text="${c.enrolledCourse}">
                                                     Course Tilte
                                                 </td>
                                                 
-                                                <td th:text="${c.amount}">
-                                                    Course Amount
-                                                </td>
-                                                
-                                                <td th:text="${c.authorEmail}">
-                                                    Author Email
-                                                </td>
-                                                <td th:text="${c.date}">
-                                                    Date
-                                                </td>
                                                 
                                                 <td>
-	                                               <a th:href="@{/enroll/{title}/{student}
-	                                               (title=${c.courseTitle}, student=${session.sessionStudent})}" 
-	                                               class="btn btn-secondary">Enroll</a>
-							                      
+	                                               <a class="btn btn-secondary" 
+	                                               th:href="@{/courseSingle/{courseTitle}(courseTitle=${c.enrolledCourse})}">Start Course</a> 
                                                 </td>
                                                 
                                                 <!-- <td>

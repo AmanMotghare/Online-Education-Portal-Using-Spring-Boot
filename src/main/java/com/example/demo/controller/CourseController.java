@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,14 +53,23 @@ public class CourseController {
 			return "allCoursesTeacher";
 		}
 		
+		
+		
 		@RequestMapping("/allCoursesHomepage")	
-		String allCoursesHomepage(Model model) {
+		String allCoursesHomepage(Model model, HttpSession session) {
+			
+			if(session.getAttribute("sessionStudent") != null) {
 			
 			List<Course> list = courseRepo.findByStatus("Published");
 			
 			model.addAttribute("allCoursesListHomepage",list);
 			
 			return "coursesHomepage";
+			}
+			else
+			{
+				return "redirect:/login-student";
+			}
 		}
 		
 
@@ -101,6 +112,7 @@ public class CourseController {
 		
 		@RequestMapping("/courseSingle/{courseTitle}")
 		String openSingleCourse(@PathVariable("courseTitle") String courseTitle, Model model ) {
+			
 			List<CourseTopic> list = topicRepo.findBycourseTitle(courseTitle);
 			model.addAttribute("courseTopics",list);
 			
@@ -108,6 +120,7 @@ public class CourseController {
 				
 				model.addAttribute("coursename",courseTopic.getCourseTitle());
 				model.addAttribute("authoremail",courseTopic.getAuthorEmail());
+				
 				System.out.println(courseTopic);
 			}
 			

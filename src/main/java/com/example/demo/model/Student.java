@@ -20,14 +20,14 @@ public class Student {
     private String email;
 	@Column
 	private String password;
-	
+	@Column
+	private int coursesEnrolledNo=0;
 	
 	
 	public Student() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
 	
 	
 	public Student(String name, String email, String password) {
@@ -38,14 +38,25 @@ public class Student {
 	}
 
 
+	public Student(String name, String email, String password, int coursesEnrolledNo) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.coursesEnrolledNo = coursesEnrolledNo;
+	}
 
-	public Student(int id, String name, String email, String password) {
+
+	public Student(int id, String name, String email, String password, int coursesEnrolledNo) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		this.coursesEnrolledNo = coursesEnrolledNo;
 	}
+
+
 	public int getId() {
 		return id;
 	}
@@ -72,16 +83,30 @@ public class Student {
 		this.password = password;
 	}
 	
-	
+
+	public int getCoursesEnrolledNo() {
+		return coursesEnrolledNo;
+	}
+
+
+	public void setCoursesEnrolledNo(int coursesEnrolledNo) {
+		this.coursesEnrolledNo = coursesEnrolledNo;
+	}
+
+
 	public static boolean isEmpty() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
+
 	@Override
 	public String toString() {
-		return "Student [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + "]";
+		return "Student [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password
+				+ ", coursesEnrolledNo=" + coursesEnrolledNo + "]";
 	}
+	
+	
 	
 	
 	
