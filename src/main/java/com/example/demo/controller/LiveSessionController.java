@@ -48,11 +48,15 @@ public class LiveSessionController {
 	return "all_live_sessions";
 	}
 	
+	
+	
 	@GetMapping("/editSessionPage")
 	public String editSession()
 	{
 	return "redirect:/all_live_sessions";
 	}
+	
+	
 	
 	@GetMapping("/editSession/{id}")	
 	public String showSessionUpdateForm(@PathVariable("id") int id, Model model) 
@@ -62,6 +66,8 @@ public class LiveSessionController {
 	model.addAttribute("liveSession", liveSession);
 	return "edit_live_session";
 	}
+	
+	
 	
 	@RequestMapping("/updateSession/{id}")
 	public String updateSession(@PathVariable("id") int id, LiveSession liveSession, BindingResult result) 
@@ -79,11 +85,15 @@ public class LiveSessionController {
 	return "redirect:/all_live_sessions";
 	}
 	
+	
+	
 	@GetMapping("/deleteSessionPage")
 	public String deleteSession()
 	{
 	return "redirect:/all_live_sessions";
 	}
+	
+
 	
 	@RequestMapping("/deleteSession/{id}")
 	public String deleteSession(@PathVariable("id") int id) 
@@ -94,6 +104,8 @@ public class LiveSessionController {
 	System.out.println("Deleted successfully!");
 	return "redirect:/all_live_sessions";
 	}
+	
+	
 	/* LIve session page end; */
 
 }
