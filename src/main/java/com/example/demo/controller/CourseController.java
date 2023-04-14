@@ -1,5 +1,9 @@
 package com.example.demo.controller;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,6 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.model.Course;
 import com.example.demo.model.CourseTopic;
@@ -19,6 +26,8 @@ import com.example.demo.repository.CourseTopicRepository;
 @Controller
 public class CourseController {
 	
+	private String courseTitleImage; 
+	private String fileName;
 	
 	//Add Course Details
 	
@@ -33,14 +42,22 @@ public class CourseController {
 		
 		@Autowired
 		CourseRepository courseRepo;
-		@RequestMapping("/addCourseData")
-		String addCourseData(@ModelAttribute("course") Course course ) {
+		@RequestMapping("/addCourseData" )
+		String addCourseData(@ModelAttribute("course") Course course,
+				@RequestParam("courseTitle") String courseTitle) {
 			
 			courseRepo.save(course);
 			System.out.println("Course Added.");
 			
-			return "redirect:/allCoursesTeacher";
+			//System.out.println("The ct is =" + courseTitle);
+			
+			courseTitleImage = courseTitle;
+			
+			return "redirect:/addCourseImage";
 		}
+		
+		
+		
 		
 		
 		@RequestMapping("/allCoursesTeacher")	
@@ -58,7 +75,7 @@ public class CourseController {
 		@RequestMapping("/allCoursesHomepage")	
 		String allCoursesHomepage(Model model, HttpSession session) {
 			
-			if(session.getAttribute("sessionStudent") != null) {
+			//if(session.getAttribute("sessionStudent") != null) {
 			
 			List<Course> list = courseRepo.findByStatus("Published");
 			
@@ -66,11 +83,11 @@ public class CourseController {
 			
 			return "coursesHomepage";
 			}
-			else
-			{
-				return "redirect:/login-student";
-			}
-		}
+//			else
+//			{
+//				return "redirect:/login-student";
+//			}
+//		}
 		
 
 		@RequestMapping("/addTopic/{title}")
@@ -128,5 +145,65 @@ public class CourseController {
 		}
 		
 		
-	
+		/** Adding Course Image **/
+		
+		@RequestMapping("/addCourseImage")
+		String addImagePage( Model model) {
+		
+			model.addAttribute("courseTitle",courseTitleImage);
+			
+			return "addCourseImage";
+		}
+		
+		
+		@RequestMapping("/addImage")
+		String addCourseImage(@RequestParam("courseImage") MultipartFile file, 
+				RedirectAttributes attributes) {
+			
+			
+			
+			final String UPLOAD_FOLDER = "C://Users//91797//Documents//workspace-sts-3.9.12.RELEASE//Online-Education-Webapp//src//main//resources//static//course_Title_Images//" ;
+			fileName = file.getOriginalFilename();
+			
+			
+			
+			if(file.isEmpty()) {
+				attributes.addFlashAttribute("message", "Please select a file to upload.");
+	            return "redirect:/addCourseImage";
+			}
+			
+			try {
+				// read and write the file to the selected location-
+				byte[] bytes = file.getBytes();
+				
+				Path path = Paths.get(UPLOAD_FOLDER + fileName);
+				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				System.out.println("File uploded");
+			}
+			catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			
+			 // return success response
+	        attributes.addFlashAttribute("message", "You successfully uploaded " + fileName + '!');
+	        
+	        updateCourse();
+			
+			return "redirect:/teacher-dashboard";
+		}
+		
+		
+		void updateCourse() {
+			
+			Course course = courseRepo.findBycourseTitle(courseTitleImage);
+			
+			course.setCourseImage(fileName);
+			
+			courseRepo.save(course);
+			
+			System.out.println(course);	
+			
+		}
+
 }

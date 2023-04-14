@@ -24,6 +24,8 @@ public class Course {
 	@Column
 	private String date;
 	@Column
+	private String courseImage;
+	@Column
 	private String status="Pending";
 	
 	public Course() {
@@ -40,6 +42,31 @@ public class Course {
 		this.status = status;
 	}
 	
+	
+	
+	public Course(String courseTitle, String authorEmail, String amount, String date, String courseImage,
+			String status) {
+		super();
+		this.courseTitle = courseTitle;
+		this.authorEmail = authorEmail;
+		this.amount = amount;
+		this.date = date;
+		this.courseImage = courseImage;
+		this.status = status;
+	}
+
+	public Course(int id, String courseTitle, String authorEmail, String amount, String date, String courseImage,
+			String status) {
+		super();
+		this.id = id;
+		this.courseTitle = courseTitle;
+		this.authorEmail = authorEmail;
+		this.amount = amount;
+		this.date = date;
+		this.courseImage = courseImage;
+		this.status = status;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -77,6 +104,15 @@ public class Course {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	
+	public String getCourseImage() {
+		return courseImage;
+	}
+
+	public void setCourseImage(String courseImage) {
+		this.courseImage = courseImage;
 	}
 
 	@Override

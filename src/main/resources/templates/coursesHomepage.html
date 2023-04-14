@@ -172,7 +172,10 @@
                                                 <!-- Single course -->
                                                 <div class="single-course mb-70">
                                                     <div class="course-img">
-                                                        <img src="assets/img/gallery/popular_sub1.png" alt="">
+                                                        <img 
+                                                        class="img-fluid"
+                                                        th:src="'/course_Title_Images//' + ${c.courseImage}" 
+                                                        alt="">
                                                     </div>
                                                    
                                                     <div class="course-caption">

@@ -335,77 +335,45 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Add Course</h4>
+                                <h4 class="card-title">Add Course Image</h4>
                             </div>
                             <div class="card-body">
                                 <div class="basic-form">
-                                	<form action="#" th:action="@{/addCourseData}" method="post" th:object="${course}">
+                                 <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
+                                	<form action="#" th:action="@{/addImage}" method="post" 
+                                	 enctype="multipart/form-data">
                                 	                                       
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label col-form-label-lg">Course Title</label>
-                                            <div class="col-sm-6">
-                                                <input type="text"
-                                                name="courseTitle" 
-                                                th:field="*{courseTitle}" 
-                                                class="form-control form-control-lg" 
-                                                placeholder="Name">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            
-                                            <th:block th:if="${session.sessionTeacher}">
-	                                            <label class="col-sm-2 col-form-label col-form-label-lg">Author's Email</label>
-		                                            <div class="col-sm-6">
-		                                                <input type="email"
-		                                                th:value="${session.sessionTeacher}"  
-		                                                name="authorEmail"
-		                                                class="form-control form-control-lg" 
-		                                                readonly="readonly"
-		                                                placeholder="Email">
-		                                            </div>
-					                        </th:block>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label col-form-label-lg">Amount</label>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6" >
                                                 <input type="text" 
-                                                th:field="*{amount}" 
-                                                class="form-control form-control-lg"
-                                                placeholder="Amount">
+                                                th:value="${courseTitle}"
+                                                name="courseTitle"
+                                                class="form-control form-control-lg" 
+                                                placeholder="Name"
+                                                readonly>
                                             </div>
                                         </div>
-                                        
-                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label col-form-label-lg">Date</label>
+                                       
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label col-form-label-lg">Upload Display Image</label>
                                             <div class="col-sm-6">
-                                                <input type="date" 
-                                                th:field="*{date}" 
+                                              
+                                                <input type="file" name="courseImage"
                                                 class="form-control form-control-lg" 
-                                                placeholder="Amount">
+                                                />
+                                                <br />
+                                                
                                             </div>
                                         </div>
+                                     
                                         
-                                        <!--  <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label col-form-label-lg">Status</label>
-                                            <div class="col-sm-6">
-                                                <input type="text"  
-                                                th:field="*{status}" 
-                                                class="form-control form-control-lg" 
-                                                placeholder="Amount">
-                                            </div>
-                                        </div> -->
-                                        
-                                        <!-- <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label col-form-label-lg">Video Link</label>
-                                            <div class="col-sm-6">
-                                                <input type="text"  class="form-control form-control-lg" placeholder="video Link">
-                                            </div>
-                                        </div> -->
+                                      
                                         
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label col-form-label-lg"></label>
                                             <div class="col-sm-6">
-                                                <input type="submit" class="btn  btn-square btn-primary" value="Add Course">
+                                                <input type="submit" class="btn  btn-square btn-primary" value="Add Image">
                                             </div>
                                         </div>
 
