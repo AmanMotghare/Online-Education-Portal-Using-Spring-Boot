@@ -28,15 +28,24 @@ public class CourseController {
 	
 	private String courseTitleImage; 
 	private String fileName;
+	private String UPLOAD_FOLDER;
 	
 	//Add Course Details
 	
 		@RequestMapping("/addCourse")	
-		String addCourse(Model  model) {
+		String addCourse(Model  model, HttpSession session) {
+			
+			if(session.getAttribute("sessionTeacher") != null) {
 			
 			Course course = new Course();
 			model.addAttribute("course",course);
 			return "addCourse";
+			}
+			else
+			{
+				return "redirect:/login-teacher";
+			}
+		
 		}
 		
 		
@@ -57,7 +66,63 @@ public class CourseController {
 		}
 		
 		
+		/** Adding Course Image **/
 		
+		@RequestMapping("/addCourseImage")
+		String addImagePage( Model model) {
+		
+			model.addAttribute("courseTitle",courseTitleImage);
+			
+			return "addCourseImage";
+		}
+		
+		
+		@RequestMapping("/addImage")
+		String addCourseImage(@RequestParam("courseImage") MultipartFile file, 
+				RedirectAttributes attributes) {
+	
+			UPLOAD_FOLDER = "C://Users//91797//Documents//workspace-sts-3.9.12.RELEASE//Online-Education-Webapp//src//main//resources//static//course_Title_Images//" ;
+			fileName = file.getOriginalFilename();
+			
+			
+			if(file.isEmpty()) {
+				attributes.addFlashAttribute("message", "Please select a file to upload.");
+	            return "redirect:/addCourseImage";
+			}
+			
+			try {
+				// read and write the file to the selected location-
+				byte[] bytes = file.getBytes();
+				
+				Path path = Paths.get(UPLOAD_FOLDER + fileName);
+				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				System.out.println("File uploded");
+			}
+			catch (Exception e) {
+				
+				e.printStackTrace();
+			}
+			
+			 // return success response
+	        attributes.addFlashAttribute("message", "You successfully uploaded " + fileName + '!');
+	        
+	        updateCourse();
+			
+			return "redirect:/teacher-dashboard";
+		}
+		
+		
+		/**Function to update course data after inserting image**/
+		void updateCourse() {
+			
+			Course course = courseRepo.findBycourseTitle(courseTitleImage);
+			
+			course.setCourseImage(fileName);
+			
+			courseRepo.save(course);
+			
+			System.out.println(course);		
+		}
 		
 		
 		@RequestMapping("/allCoursesTeacher")	
@@ -89,7 +154,8 @@ public class CourseController {
 //			}
 //		}
 		
-
+		
+		/** Add Topics **/
 		@RequestMapping("/addTopic/{title}")
 		String addCourseTopicPage(@PathVariable("title") String title, Model model) {
 			
@@ -113,10 +179,9 @@ public class CourseController {
 		@RequestMapping("/setTopic")
 		String setCourseTopicPage(@ModelAttribute("topicKey") CourseTopic topic) {
 			
-			
+			//Breaking youtube Link
 			String url=topic.getYoutubeLink();
 			String urlId[]=url.split("=");
-			
 			topic.setYoutubeLink(urlId[1]);
 			
 			topicRepo.save(topic);
@@ -125,8 +190,9 @@ public class CourseController {
 			return "redirect:allCoursesTeacher";
 		}
 		
+	
 		
-		
+		/** All Courses titles **/
 		@RequestMapping("/courseSingle/{courseTitle}")
 		String openSingleCourse(@PathVariable("courseTitle") String courseTitle, Model model ) {
 			
@@ -143,67 +209,4 @@ public class CourseController {
 			
 			return "courseSingle";
 		}
-		
-		
-		/** Adding Course Image **/
-		
-		@RequestMapping("/addCourseImage")
-		String addImagePage( Model model) {
-		
-			model.addAttribute("courseTitle",courseTitleImage);
-			
-			return "addCourseImage";
-		}
-		
-		
-		@RequestMapping("/addImage")
-		String addCourseImage(@RequestParam("courseImage") MultipartFile file, 
-				RedirectAttributes attributes) {
-			
-			
-			
-			final String UPLOAD_FOLDER = "C://Users//91797//Documents//workspace-sts-3.9.12.RELEASE//Online-Education-Webapp//src//main//resources//static//course_Title_Images//" ;
-			fileName = file.getOriginalFilename();
-			
-			
-			
-			if(file.isEmpty()) {
-				attributes.addFlashAttribute("message", "Please select a file to upload.");
-	            return "redirect:/addCourseImage";
-			}
-			
-			try {
-				// read and write the file to the selected location-
-				byte[] bytes = file.getBytes();
-				
-				Path path = Paths.get(UPLOAD_FOLDER + fileName);
-				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-				System.out.println("File uploded");
-			}
-			catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-			}
-			
-			 // return success response
-	        attributes.addFlashAttribute("message", "You successfully uploaded " + fileName + '!');
-	        
-	        updateCourse();
-			
-			return "redirect:/teacher-dashboard";
-		}
-		
-		
-		void updateCourse() {
-			
-			Course course = courseRepo.findBycourseTitle(courseTitleImage);
-			
-			course.setCourseImage(fileName);
-			
-			courseRepo.save(course);
-			
-			System.out.println(course);	
-			
-		}
-
 }

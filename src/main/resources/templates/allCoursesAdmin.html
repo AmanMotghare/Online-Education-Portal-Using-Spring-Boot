@@ -356,6 +356,7 @@
                                                 <th>Email</th>
                                                 <th>Date</th>
                                                 <th>Status</th>
+                                                <th>Action</th>
                                                 <!-- <th>Action</th> -->
                                             </tr>
                                         </thead>
@@ -377,6 +378,14 @@
                                                 <td th:text="${c.status}">
                                                     Status
                                                 </td>
+                                                
+                                                <td>
+                                                	<a th:href="@{/deleteCourse/{title}(title=${c.courseTitle})}" data-toggle="tooltip"
+	                                                   data-placement="top" title="Close">
+	                                                   <i class="fa fa-close color-danger"></i>
+                                                   </a>   
+                                               </td>
+                                              
                                                 <!-- <td>
                                                     <a th:href="@{addTopic/{title}(title=${c.courseTitle})}" class="btn btn-secondary">Add Topics</a>
                                                 </td> -->

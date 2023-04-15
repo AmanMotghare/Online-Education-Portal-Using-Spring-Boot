@@ -342,7 +342,9 @@
                             
                             <div class="card-body">
                                 <div class="basic-form">
-                                	<form action="" th:action="@{/setTopic}" th:object="${topicKey}" method="post">
+                                	<form action="" th:action="@{/setTopic}" enctype="multipart/form-data" 
+                                	th:object="${topicKey}" 
+                                	method="post">
                                 	
                                 		<div class="form-group row">
 	                                		<th:block th:object="${courseKey}">
@@ -406,6 +408,16 @@
                                                 placeholder="YouTube Link">
                                             </div>
                                         </div>
+                                        
+                                        <!-- <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label col-form-label-lg">Topic Image</label>
+                                            <div class="col-sm-6">
+                                                <input type="file"
+                                                name="topicImage" 
+                                                th:field="*{topicImage}" 
+                                                class="form-control form-control-lg"> 
+                                            </div>
+                                        </div> -->
                                         
                                         
                                         <div class="form-group row">

@@ -8,13 +8,16 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.model.Admin;
 import com.example.demo.model.Course;
+import com.example.demo.model.CourseTopic;
 import com.example.demo.repository.AdminRepository;
 import com.example.demo.repository.CourseRepository;
+import com.example.demo.repository.CourseTopicRepository;
 import com.example.demo.service.AuthenticateService;
 
 @Controller
@@ -106,4 +109,32 @@ public class AdminController {
 		
 		return "allCoursesAdmin";
 	}
+	
+	@Autowired
+	CourseTopicRepository topicRepo;
+
+	
+	@RequestMapping("/deleteCourse/{title}")
+	String deleteCoursesAdmin(@PathVariable("title") String title) {
+		
+		//deleting course 
+		Course c = courseRepo.findBycourseTitle(title);
+		
+		courseRepo.deleteById(c.getId());
+		
+		//deleting topics
+		List<CourseTopic> topics = topicRepo.findBycourseTitle(title);
+		
+		System.out.println(topics);
+		
+		for (CourseTopic courseTopic : topics) {
+			
+			topicRepo.deleteById(courseTopic.getTopicId());
+		}
+		
+			
+		return "redirect:/allCoursesAdmin";	
+	}
+	
+	
 }

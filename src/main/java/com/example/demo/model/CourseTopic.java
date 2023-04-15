@@ -17,7 +17,8 @@ public class CourseTopic {
 	private int topicId;
 	
 	@Column
-	private String courseId;
+	private int courseId;
+	
 	@Column
 	private String courseTitle;
 	@Column
@@ -27,14 +28,14 @@ public class CourseTopic {
 	@Column
 	private String youtubeLink;
 	
+	//private String topicImage;
+	
 	public CourseTopic() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
 
-	public CourseTopic(int topicId, String courseId, String courseTitle, String authorEmail, String topicName,
+	public CourseTopic(int topicId, int courseId, String courseTitle, String authorEmail, String topicName,
 			String youtubeLink) {
 		super();
 		this.topicId = topicId;
@@ -45,9 +46,7 @@ public class CourseTopic {
 		this.youtubeLink = youtubeLink;
 	}
 
-
-
-	public CourseTopic(String courseId, String courseTitle, String authorEmail, String topicName, String youtubeLink) {
+	public CourseTopic(int courseId, String courseTitle, String authorEmail, String topicName, String youtubeLink) {
 		super();
 		this.courseId = courseId;
 		this.courseTitle = courseTitle;
@@ -64,11 +63,11 @@ public class CourseTopic {
 		this.topicId = topicId;
 	}
 
-	public String getCourseId() {
+	public int getCourseId() {
 		return courseId;
 	}
 
-	public void setCourseId(String courseId) {
+	public void setCourseId(int courseId) {
 		this.courseId = courseId;
 	}
 
@@ -109,7 +108,8 @@ public class CourseTopic {
 		return "CourseTopic [topicId=" + topicId + ", courseId=" + courseId + ", courseTitle=" + courseTitle
 				+ ", authorEmail=" + authorEmail + ", topicName=" + topicName + ", youtubeLink=" + youtubeLink + "]";
 	}
-
+	
+	
 	
 
 	
