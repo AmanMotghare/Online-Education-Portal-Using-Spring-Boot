@@ -344,15 +344,15 @@
                                     <form action="#" th:action="@{/test2}" method="post"  th:object="${mcqCobj}">
                                         <div class="form-group">
                                         Test Paper Name:
-                                            <input type="text" th:field="*{titel}" class="form-control input-default " placeholder="Test titel">
+                                            <input type="text" th:field="*{titel}" class="form-control input-default " readonly placeholder="Test titel">
                                         </div>
                                         <div class="form-group">
                                         Class or Subject
-                                            <input type="text" th:field="*{subject}" class="form-control input-default " placeholder="Please Enter class or subject">
+                                            <input type="text" th:field="*{subject}" class="form-control input-default " readonly placeholder="Please Enter class or subject">
                                         </div>
                                         <div class="form-group">
                                          Creator Email ID:
-                                            <input type="text" name="email" class="form-control input-default " placeholder="Please Enter Email ID" th:value="${session.sessionTeacher}" >
+                                            <input type="text" name="email" class="form-control input-default " placeholder="Please Enter Email ID" readonly th:value="${session.sessionTeacher}" >
                                         </div>
                                         <div class="form-group">
                                          Time Allowed

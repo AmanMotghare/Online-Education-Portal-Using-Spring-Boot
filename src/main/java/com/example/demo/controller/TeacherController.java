@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.model.Course;
 import com.example.demo.model.CourseTopic;
+import com.example.demo.model.Student;
 import com.example.demo.model.Teacher;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.CourseTopicRepository;
@@ -172,6 +173,26 @@ public class TeacherController {
 		System.out.println("Course Published.");
 		
 		return "redirect:/publishCourse";
+		
+	}
+	
+	
+	@RequestMapping("/allPublishedCoursesTeacher")
+	String allPublishedCourses(Model model, HttpSession session){
+		
+		String teacherEmail = (String) session.getAttribute("sessionTeacher") ;
+		
+		if( teacherEmail != null) {
+			
+			//Fetching all published courses for students
+			List<Course> list = courseRepo.findByStatus("Published");
+			model.addAttribute("allCoursesList",list);
+			
+			return "allPublishedCoursesTeacher";
+		}
+		else {
+			return "redirect:/login-teacher";
+		}
 		
 	}
 }

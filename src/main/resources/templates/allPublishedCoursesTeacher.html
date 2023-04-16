@@ -6,12 +6,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Student Dashboard </title>
+    <title>Teacher Dashboard </title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/images/favicon.png}">
-    <link th:href="@{/vendor/pg-calendar/css/pignose.calendar.min.css}" rel="stylesheet">
-    <link th:href="@{/vendor/chartist/css/chartist.min.css}" rel="stylesheet">
-    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
+    <link href="./vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+    <link href="./vendor/chartist/css/chartist.min.css" rel="stylesheet">
+    <link href="./css/style.css" rel="stylesheet">
 
 </head>
 
@@ -42,7 +42,7 @@
         ***********************************-->
         <div class="nav-header">
             <a href="index.html" class="brand-logo">
-                Student Dashboard
+                Teacher Dashboard
             </a>
 
             <div class="nav-control">
@@ -75,8 +75,8 @@
                             </div> -->
                         </div>
 <!-- Session test -->
-						<th:block th:if="${session.sessionStudent}">
-                               <h2 th:text="${session.sessionStudent}"></h2>
+						<th:block th:if="${session.sessionTeacher}">
+                               <h2 th:text="${session.sessionTeacher}"></h2>
                         </th:block>
                         
                         <ul class="navbar-nav header-right">
@@ -153,7 +153,7 @@
                                         <i class="icon-envelope-open"></i>
                                         <span class="ml-2">Inbox </span>
                                     </a>
-                                    <a th:href="@{/logout-student}" class="dropdown-item">
+                                    <a th:href="@{/logout-teacher}" class="dropdown-item">
                                         <i class="icon-key"></i>
                                         <span class="ml-2">Logout </span>
                                     </a>
@@ -189,33 +189,45 @@
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                                 class="icon icon-app-store"></i><span class="nav-text">Course</span></a>
                         <ul aria-expanded="false">
-                            <li><a th:href="@{/enrolledCourses/{student}(student=${session.sessionStudent})}">Enrolled Course</a></li>
-                            <li><a href="./app-calender.html">Completed Course</a></li>
-                            <li><a href="./app-calender.html">Add Complains</a></li>
-                        </ul>
-                    </li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                        class="icon icon-chart-bar-33"></i><span class="nav-text">Live Session</span></a>
-                        <ul aria-expanded="false">
-                            <li><a href="./chart-flot.html">Upcoming Live Session</a></li>
-                            <li><a href="./chart-morris.html">All Sessions</a></li>
-                        
+                            <li><a th:href="@{/addCourse}">Create New Course</a></li>
+                            <!-- <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Email</a>
+                                <ul aria-expanded="false">
+                                    <li><a href="./email-compose.html">Compose</a></li>
+                                    <li><a href="./email-inbox.html">Inbox</a></li>
+                                    <li><a href="./email-read.html">Read</a></li>
+                                </ul>
+                            </li> -->
+                            <li><a th:href="@{allCoursesTeacher}">All Course</a></li>
+                            <li><a th:href="@{/publishCourse}">Publish Course</a></li>
+                            <li><a href="./app-calender.html">Complains</a></li>
                         </ul>
                     </li>
                     
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                        	class="icon icon-chart-bar-33"></i><span class="nav-text">Take Tests</span></a>
-                        	<ul aria-expanded="false">
-                            <li><a th:href="@{/tests}">Tests</a></li>
-                            </ul>
+                                class="icon icon-app-store"></i><span class="nav-text">MCQs</span></a>
+                        <ul aria-expanded="false">
+                            <!-- <li><a th:href="@{/test1/{email}(email=${session.sessionTeacher})}">Create MCQs</a></li> -->
+                        </ul>
+                    </li>
+                    
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                        class="icon icon-chart-bar-33"></i><span class="nav-text">Live Session</span></a>
+                        <ul aria-expanded="false">
+                            <li><a th:href="@{/liveSession}">Create Live Session</a></li>
+                            <li><a th:href="@{/all_live_sessions}">All Sessions</a></li>
+                            <!-- <li><a href="./chart-chartjs.html">Chartjs</a></li>
+                            <li><a href="./chart-chartist.html">Chartist</a></li>
+                            <li><a href="./chart-sparkline.html">Sparkline</a></li>
+                            <li><a href="./chart-peity.html">Peity</a></li> -->
+                        </ul>
                     </li>
 
-
+					
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="icon icon-chart-bar-33"></i><span class="nav-text">Chats</span></a>
+                                class="icon icon-chart-bar-33"></i><span class="nav-text">Student</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="./chart-flot.html">Start New Chat </a></li>
-                            <li><a href="./chart-morris.html">All Chats</a></li>
+                            <li><a href="./chart-flot.html">All Student</a></li>
+                            <li><a href="./chart-morris.html">Chats</a></li>
                             <!-- <li><a href="./chart-chartjs.html">Chartjs</a></li>
                             <li><a href="./chart-chartist.html">Chartist</a></li>
                             <li><a href="./chart-sparkline.html">Sparkline</a></li>
@@ -314,7 +326,7 @@
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
                             <h4>Hi, welcome back!</h4>
-                            <p class="mb-0">To your student dashboard</p>
+                            <p class="mb-0">To your Teacher dashboard</p>
                         </div>
                     </div>
                     <!-- <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
@@ -340,7 +352,7 @@
                             </div>
                         </div>
                     </div> -->
-                    <div class="col-lg-3 col-sm-6">
+                   <!--  <div class="col-lg-3 col-sm-6">
                         <div class="card">
                             <div class="stat-widget-one card-body">
                                 <div class="stat-icon d-inline-block">
@@ -385,7 +397,7 @@
                         </div>
                     </div>
                     
-                </div>
+                </div> -->
                 <!-- <div class="row">
                     <div class="col-lg-8">
                         <div class="card">
@@ -421,12 +433,12 @@
                                                 <th>Amount</th>
                                                 <th>Email</th>
                                                 <th>Date</th>
-                                                <th>Action</th>
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         
-                                            <tr th:each="c : ${allCoursesList}">
+                                             <tr th:each="c : ${allCoursesList}">
                                                 <td th:text="${c.courseTitle}">
                                                     Course Tilte
                                                 </td>
@@ -443,11 +455,12 @@
                                                 </td>
                                                 
                                                 <td>
-	                                               <a th:href="@{/enroll/{title}/{student}
-	                                               (title=${c.courseTitle}, student=${session.sessionStudent})}" 
-	                                               class="btn btn-secondary">Enroll</a>
-							                      
-                                                </td>
+	                                               
+	                                               <a th:href="@{/test1/{email}/{subject}
+	                                               (email=${session.sessionTeacher},subject=${c.courseTitle})}">Create MCQs
+	                                               </a>
+	                                                
+                                                </td> 
                                                 
                                                 <!-- <td>
                                                     <span class="badge badge-primary">Complete</span>
@@ -898,17 +911,17 @@
         Scripts
     ***********************************-->
     <!-- Required vendors -->
-    <script th:src="@{/vendor/global/global.min.js}"></script>
-    <script th:src="@{/js/quixnav-init.js}"></script>
-    <script th:src="@{/js/custom.min.js}"></script>
+    <script src="./vendor/global/global.min.js"></script>
+    <script src="./js/quixnav-init.js"></script>
+    <script src="./js/custom.min.js"></script>
 
-    <script th:src="@{/vendor/chartist/js/chartist.min.js}"></script>
+    <script src="./vendor/chartist/js/chartist.min.js"></script>
 
-    <script th:src="@{/vendor/moment/moment.min.js}"></script>
-    <script th:src="@{/vendor/pg-calendar/js/pignose.calendar.min.js}"></script>
+    <script src="./vendor/moment/moment.min.js"></script>
+    <script src="./vendor/pg-calendar/js/pignose.calendar.min.js"></script>
 
 
-    <script th:src="@{/js/dashboard/dashboard-2.js}"></script>
+    <script src="./js/dashboard/dashboard-2.js"></script>
     <!-- Circle progress -->
 
 </body>

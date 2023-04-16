@@ -107,7 +107,6 @@ public class StudentController {
 	@RequestMapping("studentdashboard")
 	String openStudentDashboard(Model model, HttpSession session) {
 		
-		int n=1;
 		String studentEmail = (String) session.getAttribute("sessionStudent") ;
 		
 		if( studentEmail != null) {

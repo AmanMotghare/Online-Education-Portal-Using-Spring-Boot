@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import com.example.demo.model.McqTest;
 import com.example.demo.model.Student;
 import com.example.demo.repository.McqCreateRepo;
 import com.example.demo.repository.McqTestRepo;
+import com.example.demo.repository.StudentRepository;
 
 
 @Controller
@@ -37,12 +40,15 @@ public class AddMcqController {
 		return "page-mcq";
 	}
 	
-	@RequestMapping("/test1/{email}")
-	String myfun1(@PathVariable("email") String email, Model model) {
-		McqCreate mc = new McqCreate();
-		mc.setEmail(email);
-		model.addAttribute("mcqCobj", mc);
-		mc.show();
+	@RequestMapping("/test1/{email}/{subject}")
+	String myfun1(@PathVariable("email") String email,
+			@PathVariable("subject") String subject, Model model) {
+		McqCreate mcq = new McqCreate();
+		mcq.setEmail(email);
+		mcq.setTitel(subject);
+		mcq.setSubject(subject);
+		model.addAttribute("mcqCobj", mcq);
+		mcq.show();
 		return "mcqcreate";
 	}
 	//////////////////////////////////////////////////////////////
@@ -152,6 +158,82 @@ public class AddMcqController {
 	@RequestMapping("/done")
 	String done() {
 		return "done";
+	}
+	
+	
+	//////////////////////////////////////////////////////////////
+	
+	@Autowired
+	private McqTestRepo mcqRepo;
+	private List<McqTest> mct;
+	private int id=0;
+	private String title;
+	private String subject;
+	
+	@RequestMapping("/showmcq/{title}/{subject}")
+	String showMCQS(@PathVariable("title") String title,
+			@PathVariable("subject") String subject, Model model) {
+		
+		this.title = title;
+		this.subject = subject;
+		
+		//createRepo.findBySubject(subject);
+		
+		return "redirect:/mcqtest/"+id;
+	}
+	
+	@RequestMapping("/mcqtest/{id}")
+	String McqTest(@PathVariable ("id") int id ,Model model ) {
+		
+		mct = mcqRepo.findBytitle(title);
+		model.addAttribute("mcqs",mct);
+		
+		model.addAttribute("title", title);
+		model.addAttribute("subject", subject);
+		
+		
+		McqTest mcqTest = mct.get(id);
+		
+		
+		model.addAttribute("mcqTest", mcqTest);
+		model.addAttribute("id", id);
+//		System.out.println("No of question"+mct.size());
+		model.addAttribute("count",mct.size()-1);
+		
+//		System.out.println("heyyyyyyyyyyyyyyy " + id);
+		
+		return "showMCQ";
+	}
+	
+	
+	
+	@Autowired
+	private McqCreateRepo createRepo;
+	
+	@Autowired
+	private StudentRepository studRepo;
+	
+	@RequestMapping("/tests")
+	String takeTest(Model model, HttpSession session) {
+		
+		String studentEmail = (String) session.getAttribute("sessionStudent") ;
+		
+		if(studentEmail != null) {
+			
+			List<McqCreate> mcq = createRepo.findAll();
+			model.addAttribute("tobj", mcq);
+			
+			//Fetching no. of courses enrolled by students
+			Student student = studRepo.findByEmail(studentEmail);
+			model.addAttribute("student",student);
+			
+			return "takeTest";
+		}
+		else {
+			return "redirect:/login-student";
+		}
+		
+		
 	}
 	
 	

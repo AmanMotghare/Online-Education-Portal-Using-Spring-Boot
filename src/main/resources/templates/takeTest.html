@@ -199,7 +199,6 @@
                         <ul aria-expanded="false">
                             <li><a href="./chart-flot.html">Upcoming Live Session</a></li>
                             <li><a href="./chart-morris.html">All Sessions</a></li>
-                        
                         </ul>
                     </li>
                     
@@ -406,49 +405,46 @@
                     </div>
                 </div> -->
                 <div class="row">
-                    <div class="col-lg-12">
+                   <div class="col-lg-12">
 
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">All Courses</h4>
+                                <h4 class="card-title">All Tests</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table student-data-table m-t-20">
                                         <thead>
                                             <tr>
-                                                <th>Course Title</th>
-                                                <th>Amount</th>
+                                                <th>Test Title</th>
+                                                <th>Subject</th>
                                                 <th>Email</th>
-                                                <th>Date</th>
+                                                <th>Time</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                        
-                                            <tr th:each="c : ${allCoursesList}">
-                                                <td th:text="${c.courseTitle}">
-                                                    Course Tilte
+                                        <tbody >
+                                            <tr th:each="t : ${tobj}">
+                                            
+                                                <td th:text="${t.titel}">
+                                                    Course Title
                                                 </td>
                                                 
-                                                <td th:text="${c.amount}">
-                                                    Course Amount
+                                                <td th:text="${t.subject}">
+                                                    Subject
                                                 </td>
                                                 
-                                                <td th:text="${c.authorEmail}">
-                                                    Author Email
+                                                <td th:text="${t.email}">
+                                                    Teacher Email 
                                                 </td>
-                                                <td th:text="${c.date}">
-                                                    Date
+                                                
+                                                <td th:text="${t.time}">
+                                                    Time Duration
                                                 </td>
                                                 
                                                 <td>
-	                                               <a th:href="@{/enroll/{title}/{student}
-	                                               (title=${c.courseTitle}, student=${session.sessionStudent})}" 
-	                                               class="btn btn-secondary">Enroll</a>
-							                      
+                                                    <a th:href="@{/showmcq/{title}/{subject}(title=${t.titel},subject=${t.subject})}" class="btn btn-secondary">Take Test</a>
                                                 </td>
-                                                
                                                 <!-- <td>
                                                     <span class="badge badge-primary">Complete</span>
                                                 </td> -->
