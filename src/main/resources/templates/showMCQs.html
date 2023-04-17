@@ -153,39 +153,42 @@ body {
 	</div>
 
 
-<th:block th:object="${mcqTest}">
-<form action="" th:action="">
+<th:block th:each="q : ${mcqs}">
+<form th:action="@{/mcqtest}">
 	<div class="container mt-sm-5 my-1">
 	
 		<div class="question ml-sm-5 pl-sm-5 pt-2">
 			<div class="py-2 h5">
-				<b th:text="${mcqTest.que}">Q. 
+				<b th:text="${q.que}">Q. 
 					role?</b>
 			</div>
 			
 			<div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
-				<label class="options"><p th:text="${mcqTest.op1}"></p> 
-				<input type="radio" name="radio"> 
+			
+			<input type="hidden" name="id"  th:value="${q.qId}"> 
+			 
+				<label class="options"><p th:text="${q.op1}"></p> 
+				<input type="radio" name="radio" value="A"> 
 				<span class="checkmark"></span>
 				</label> 
 				
-				<label class="options"><p th:text="${mcqTest.op2}"></p> 
-				<input type="radio" name="radio"> 
+				<label class="options"><p th:text="${q.op2}"></p> 
+				<input type="radio" name="radio" value="B"> 
 				<span class="checkmark" ></span> 
 				</label> 
 				
-				<label class="options"><p th:text="${mcqTest.op3}"></p> 
-				<input type="radio" name="radio">
+				<label class="options"><p th:text="${q.op3}"></p> 
+				<input type="radio" name="radio" value="C">
 				<span class="checkmark" ></span> 
 				</label> 
 				
-				<label class="options"><p th:text="${mcqTest.op4}"></p> 
-				<input type="radio" name="radio"> 
+				<label class="options"><p th:text="${q.op4}"></p> 
+				<input type="radio" name="radio" value="D"> 
 				<span class="checkmark"></span> 
 				</label> 
 				
-				<label class="options"><p th:text="${mcqTest.op5}"></p> 
-				<input type="radio" name="radio">
+				<label class="options"><p th:text="${q.op5}"></p> 
+				<input type="radio" name="radio" value="E">
 				<span class="checkmark"></span> 
 				</label>
 			</div>
@@ -193,7 +196,7 @@ body {
 		
 		<div class="d-flex align-items-center pt-3">
 		
-		<th:block th:if="${id>0}">
+		<!-- <th:block th:if="${id>0}">
 			<div id="prev">
 				<a class="btn btn-primary" th:href="'/mcqtest/'+(${id}-${1})" >Previous</a>   
 			</div>
@@ -207,14 +210,18 @@ body {
 		
 		<th:block th:if="${id}==${count}">
 			<div class="ml-auto mr-sm-5">
-				<input class="btn btn-success" type=submit Value=Submit >     
+				<input class="btn btn-success" type=submit Value="Submit Test">     
 			</div>
-		</th:block>
+		</th:block> -->
+		
+		<div class="ml-auto mr-sm-5">
+			<input class="btn btn-success" type=submit Value="Submit Test">     
+		</div>
 		
 		</div>
 	</div>
 </form>
-</th:block>
+
 	<script type='text/javascript'
 		src='https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js'></script>
 	<script type='text/javascript' src='#'></script>

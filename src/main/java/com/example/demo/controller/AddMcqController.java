@@ -10,12 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import com.example.demo.model.McqCreate;
 import com.example.demo.model.McqTest;
 import com.example.demo.model.Student;
+import com.example.demo.model.StudentExam;
 import com.example.demo.repository.McqCreateRepo;
 import com.example.demo.repository.McqTestRepo;
 import com.example.demo.repository.StudentRepository;
@@ -169,7 +171,9 @@ public class AddMcqController {
 	private int id=0;
 	private String title;
 	private String subject;
+	//private String radio="";
 	
+	/**
 	@RequestMapping("/showmcq/{title}/{subject}")
 	String showMCQS(@PathVariable("title") String title,
 			@PathVariable("subject") String subject, Model model) {
@@ -177,33 +181,106 @@ public class AddMcqController {
 		this.title = title;
 		this.subject = subject;
 		
-		//createRepo.findBySubject(subject);
 		
 		return "redirect:/mcqtest/"+id;
 	}
 	
 	@RequestMapping("/mcqtest/{id}")
-	String McqTest(@PathVariable ("id") int id ,Model model ) {
+	String McqTest(@PathVariable ("id") int id ,Model model) {
 		
-		mct = mcqRepo.findBytitle(title);
-		model.addAttribute("mcqs",mct);
-		
-		model.addAttribute("title", title);
+	 	model.addAttribute("title", title);
 		model.addAttribute("subject", subject);
 		
+		//list of questions by title
+		mct = mcqRepo.findBytitle(title);
+		model.addAttribute("mcqs",mct);	
 		
+		//getting single question from the list
 		McqTest mcqTest = mct.get(id);
-		
 		
 		model.addAttribute("mcqTest", mcqTest);
 		model.addAttribute("id", id);
 //		System.out.println("No of question"+mct.size());
 		model.addAttribute("count",mct.size()-1);
 		
-//		System.out.println("heyyyyyyyyyyyyyyy " + id);
 		
-		return "showMCQ";
+		return "/showMCQs";
+	} **/
+	
+	
+	/////////////////Another Method/////////////////////
+	
+	@RequestMapping("/showmcq/{title}/{subject}")
+	String showMCQS(@PathVariable("title") String title,
+			@PathVariable("subject") String subject, Model model) {
+		
+		model.addAttribute("title", title);
+		model.addAttribute("subject", subject);
+		
+		//list of questions by title
+		mct = mcqRepo.findBytitle(title);
+		model.addAttribute("mcqs",mct);
+
+		return "showMCQs";
 	}
+	
+	@RequestMapping("/mcqtest")
+	String McqTest(@PathVariable (" ") int id ,Model model) {
+		
+	 	model.addAttribute("title", title);
+		model.addAttribute("subject", subject);
+		
+		//list of questions by title
+		mct = mcqRepo.findBytitle(title);
+		model.addAttribute("mcqs",mct);	
+		System.out.println(mct);
+		
+		//getting single question from the list
+		//McqTest mcqTest = mct.get(id);
+		//model.addAttribute("mcqTest", mcqTest);
+		
+		//model.addAttribute("id", id);
+		
+		//System.out.println("No of question"+mct.size());
+		//model.addAttribute("count",mct.size()-1);
+		
+		return "/showMCQs";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

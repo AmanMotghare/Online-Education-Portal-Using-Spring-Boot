@@ -148,7 +148,7 @@
                                         <i class="icon-envelope-open"></i>
                                         <span class="ml-2">Inbox </span>
                                     </a>
-                                    <a th:href="@{/logout}" class="dropdown-item">
+                                    <a th:href="@{/logout-teacher}" class="dropdown-item">
                                         <i class="icon-key"></i>
                                         <span class="ml-2">Logout </span>
                                     </a>
@@ -184,7 +184,7 @@
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                                 class="icon icon-app-store"></i><span class="nav-text">Course</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="./app-profile.html">Create New</a></li>
+                            <li><a th:href="@{/addCourse}">Create New Course</a></li>
                             <!-- <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Email</a>
                                 <ul aria-expanded="false">
                                     <li><a href="./email-compose.html">Compose</a></li>
@@ -192,18 +192,18 @@
                                     <li><a href="./email-read.html">Read</a></li>
                                 </ul>
                             </li> -->
-                            <li><a href="./app-calender.html">All Course</a></li>
-                            <li><a href="./app-calender.html">Publish Course</a></li>
+                            <li><a th:href="@{allCoursesTeacher}">All Course</a></li>
+                            <li><a th:href="@{/publishCourse}">Publish Course</a></li>
                             <li><a href="./app-calender.html">Complains</a></li>
                         </ul>
                     </li>
                     
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                    <!-- <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                                 class="icon icon-app-store"></i><span class="nav-text">MCQs</span></a>
                         <ul aria-expanded="false">
                             <li><a th:href="@{/test1/{email}(email=${session.sessionTeacher})}">Create MCQs</a></li>
                         </ul>
-                    </li>
+                    </li> -->
                     
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                         class="icon icon-chart-bar-33"></i><span class="nav-text">Live Session</span></a>
@@ -216,8 +216,16 @@
                             <li><a href="./chart-peity.html">Peity</a></li> -->
                         </ul>
                     </li>
+                    
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                                class="icon icon-app-store"></i><span class="nav-text">MCQs</span></a>
+                        <ul aria-expanded="false">
+                            <li><a th:href="@{/allPublishedCoursesTeacher}">Create MCQs</a></li>
+                            <!-- <li><a th:href="@{/test1/{email}(email=${session.sessionTeacher})}">Create MCQs</a></li> -->
+                        </ul>
+                    </li>
 
-
+					
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                                 class="icon icon-chart-bar-33"></i><span class="nav-text">Student</span></a>
                         <ul aria-expanded="false">
@@ -253,9 +261,6 @@
 
                         </ul> -->
                     </li>
-                    <li><a  th:href="@{/logout}" aria-expanded="false"><i
-                                class="icon icon-world-2"></i><span class="nav-text">Logout</span></a>
-					</li>
                 <!--
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                                 class="icon icon-plug"></i><span class="nav-text">Plugins</span></a>

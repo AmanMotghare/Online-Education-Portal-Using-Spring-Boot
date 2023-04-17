@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -36,6 +36,18 @@ public class StudentController {
 	StudentRepository studRepo;
 	
 	CourseEnrolled result;
+	
+	@RequestMapping("/")
+	 String studentIndex() {
+		return "index";
+	}
+	
+	@RequestMapping("/contact")
+	 String indexPageContact() {
+		return "/contact.html";
+	}
+	
+	
 	
 	@RequestMapping("/redirecturl")
 	public RedirectView redirecttourl() {

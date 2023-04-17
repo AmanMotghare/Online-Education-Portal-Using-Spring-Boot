@@ -19,6 +19,7 @@ import com.example.demo.repository.AdminRepository;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.CourseTopicRepository;
 import com.example.demo.service.AuthenticateService;
+import com.mysql.cj.Session;
 
 @Controller
 public class AdminController {
@@ -26,11 +27,11 @@ public class AdminController {
 	@Autowired
 	AdminRepository adminService;
 	
-	@RequestMapping("/")
+	@RequestMapping("/adminDashboard")
 	public String AdminDashboard(HttpSession session) {
 		
 		if(session.getAttribute("sessionEmail") != null) {
-			return "index";
+			return "adminDashboard";
 		}
 		else {
 			return "redirect:/login-admin";
@@ -38,7 +39,7 @@ public class AdminController {
 		
 	}
 	
-	@RequestMapping("/reg")
+	@RequestMapping("/reg-admin")
 	public String registerPage(Model model) {
 		
 		Admin admin = new Admin();
@@ -81,7 +82,7 @@ public class AdminController {
 		
 		if(authServ.authenticate(email, password)) {
 			session.setAttribute("sessionEmail", email);
-			return "redirect:/";
+			return "redirect:adminDashboard";
 		}else {
 			System.out.println("Login Failed !");
 
@@ -101,13 +102,20 @@ public class AdminController {
 	CourseRepository courseRepo;
 	
 	@RequestMapping("/allCoursesAdmin")	
-	String allCourses(Model model) {
+	String allCourses(Model model,HttpSession session) {
 		
-		List<Course> list = courseRepo.findAll();
+		if(session.getAttribute("sessionEmail") != null) {
+			List<Course> list = courseRepo.findAll();
+			
+			model.addAttribute("allCoursesList",list);
+			
+			return "allCoursesAdmin";
+		}
+		else {
+			return "redirect:/login-admin";
+		}
 		
-		model.addAttribute("allCoursesList",list);
 		
-		return "allCoursesAdmin";
 	}
 	
 	@Autowired
@@ -115,25 +123,31 @@ public class AdminController {
 
 	
 	@RequestMapping("/deleteCourse/{title}")
-	String deleteCoursesAdmin(@PathVariable("title") String title) {
+	String deleteCoursesAdmin(@PathVariable("title") String title, HttpSession session) {
 		
-		//deleting course 
-		Course c = courseRepo.findBycourseTitle(title);
-		
-		courseRepo.deleteById(c.getId());
-		
-		//deleting topics
-		List<CourseTopic> topics = topicRepo.findBycourseTitle(title);
-		
-		System.out.println(topics);
-		
-		for (CourseTopic courseTopic : topics) {
+		if(session.getAttribute("sessionEmail") != null) {
+			//deleting course 
+			Course c = courseRepo.findBycourseTitle(title);
 			
-			topicRepo.deleteById(courseTopic.getTopicId());
+			courseRepo.deleteById(c.getId());
+			
+			//deleting topics
+			List<CourseTopic> topics = topicRepo.findBycourseTitle(title);
+			
+			System.out.println(topics);
+			
+			for (CourseTopic courseTopic : topics) {
+				
+				topicRepo.deleteById(courseTopic.getTopicId());
+			}
+			
+				
+			return "redirect:/allCoursesAdmin";	
+		}
+		else {
+			return "redirect:/login-admin";
 		}
 		
-			
-		return "redirect:/allCoursesAdmin";	
 	}
 	
 	

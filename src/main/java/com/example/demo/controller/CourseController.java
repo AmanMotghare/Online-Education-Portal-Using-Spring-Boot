@@ -69,11 +69,17 @@ public class CourseController {
 		/** Adding Course Image **/
 		
 		@RequestMapping("/addCourseImage")
-		String addImagePage( Model model) {
-		
-			model.addAttribute("courseTitle",courseTitleImage);
+		String addImagePage( Model model, HttpSession session) {
+			if(session.getAttribute("sessionTeacher") != null) {
+				
+				model.addAttribute("courseTitle",courseTitleImage);
+				
+				return "addCourseImage";
+			}
+			else {
+				return "redirect:/login-teacher";
+			}
 			
-			return "addCourseImage";
 		}
 		
 		
@@ -126,13 +132,20 @@ public class CourseController {
 		
 		
 		@RequestMapping("/allCoursesTeacher")	
-		String allCourses(Model model) {
+		String allCourses(Model model, HttpSession session) {
 			
-			List<Course> list = courseRepo.findAll();
+			if(session.getAttribute("sessionTeacher") != null) {
 			
-			model.addAttribute("allCoursesList",list);
+				List<Course> list = courseRepo.findAll();
+				
+				model.addAttribute("allCoursesList",list);
+				
+				return "allCoursesTeacher";
 			
-			return "allCoursesTeacher";
+			}
+			else {
+				return "redirect:/login-teacher";
+			}
 		}
 		
 		
@@ -140,19 +153,19 @@ public class CourseController {
 		@RequestMapping("/allCoursesHomepage")	
 		String allCoursesHomepage(Model model, HttpSession session) {
 			
-			//if(session.getAttribute("sessionStudent") != null) {
+//			if(session.getAttribute("sessionStudent") != null) {
 			
 			List<Course> list = courseRepo.findByStatus("Published");
 			
 			model.addAttribute("allCoursesListHomepage",list);
 			
 			return "coursesHomepage";
-			}
+//			}
 //			else
 //			{
 //				return "redirect:/login-student";
 //			}
-//		}
+		}
 		
 		
 		/** Add Topics **/
@@ -179,7 +192,7 @@ public class CourseController {
 		@RequestMapping("/setTopic")
 		String setCourseTopicPage(@ModelAttribute("topicKey") CourseTopic topic) {
 			
-			//Breaking youtube Link
+			//Breaking youTube Link
 			String url=topic.getYoutubeLink();
 			String urlId[]=url.split("=");
 			topic.setYoutubeLink(urlId[1]);
@@ -194,19 +207,28 @@ public class CourseController {
 		
 		/** All Courses titles **/
 		@RequestMapping("/courseSingle/{courseTitle}")
-		String openSingleCourse(@PathVariable("courseTitle") String courseTitle, Model model ) {
+		String openSingleCourse(@PathVariable("courseTitle") String courseTitle,
+				HttpSession session, Model model ) {
 			
-			List<CourseTopic> list = topicRepo.findBycourseTitle(courseTitle);
-			model.addAttribute("courseTopics",list);
+			if(session.getAttribute("sessionStudent") != null) {
 			
-			for (CourseTopic courseTopic : list) {
+				List<CourseTopic> list = topicRepo.findBycourseTitle(courseTitle);
+				model.addAttribute("courseTopics",list);
 				
-				model.addAttribute("coursename",courseTopic.getCourseTitle());
-				model.addAttribute("authoremail",courseTopic.getAuthorEmail());
+				for (CourseTopic courseTopic : list) {
+					
+					model.addAttribute("coursename",courseTopic.getCourseTitle());
+					model.addAttribute("authoremail",courseTopic.getAuthorEmail());
+					
+					System.out.println(courseTopic);
+				}
 				
-				System.out.println(courseTopic);
+				return "courseSingle";
+			
 			}
-			
-			return "courseSingle";
+			else
+			{
+				return "redirect:/login-student";
+			}
 		}
 }
