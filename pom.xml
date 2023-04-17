@@ -50,11 +50,11 @@
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper -->
-			<dependency>
+			<!-- <dependency>
 			    <groupId>org.apache.tomcat.embed</groupId>
 			    <artifactId>tomcat-embed-jasper</artifactId>
 			    <version>7.0.42</version>
-			</dependency> 
+			</dependency>  -->
 		
 		<!--DEV Tool Dependency -->
 		<!-- <dependency>
