@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -168,25 +169,27 @@ public class AddMcqController {
 	@Autowired
 	private McqTestRepo mcqRepo;
 	private List<McqTest> mct;
-	private int id=0;
+	
 	private String title;
 	private String subject;
-	//private String radio="";
+	private static int count = 0;
+	private  int score = 0;
+	private  int incorrectQues = 0;
 	
-	/**
+	
 	@RequestMapping("/showmcq/{title}/{subject}")
 	String showMCQS(@PathVariable("title") String title,
 			@PathVariable("subject") String subject, Model model) {
 		
 		this.title = title;
 		this.subject = subject;
-		
-		
+		int id=0;
 		return "redirect:/mcqtest/"+id;
 	}
 	
 	@RequestMapping("/mcqtest/{id}")
 	String McqTest(@PathVariable ("id") int id ,Model model) {
+		
 		
 	 	model.addAttribute("title", title);
 		model.addAttribute("subject", subject);
@@ -200,52 +203,62 @@ public class AddMcqController {
 		
 		model.addAttribute("mcqTest", mcqTest);
 		model.addAttribute("id", id);
+		
+//		model.addAttribute("pid", id-1);
+		count = mct.size()-1;
+		
 //		System.out.println("No of question"+mct.size());
-		model.addAttribute("count",mct.size()-1);
-		
-		
-		return "/showMCQs";
-	} **/
-	
-	
-	/////////////////Another Method/////////////////////
-	
-	@RequestMapping("/showmcq/{title}/{subject}")
-	String showMCQS(@PathVariable("title") String title,
-			@PathVariable("subject") String subject, Model model) {
-		
-		model.addAttribute("title", title);
-		model.addAttribute("subject", subject);
-		
-		//list of questions by title
-		mct = mcqRepo.findBytitle(title);
-		model.addAttribute("mcqs",mct);
-
-		return "showMCQs";
-	}
-	
-	@RequestMapping("/mcqtest")
-	String McqTest(@PathVariable (" ") int id ,Model model) {
-		
-	 	model.addAttribute("title", title);
-		model.addAttribute("subject", subject);
-		
-		//list of questions by title
-		mct = mcqRepo.findBytitle(title);
-		model.addAttribute("mcqs",mct);	
-		System.out.println(mct);
-		
-		//getting single question from the list
-		//McqTest mcqTest = mct.get(id);
-		//model.addAttribute("mcqTest", mcqTest);
-		
-		//model.addAttribute("id", id);
-		
-		//System.out.println("No of question"+mct.size());
-		//model.addAttribute("count",mct.size()-1);
+		model.addAttribute("count",count);
 		
 		return "/showMCQs";
+	} 
+	
+	@RequestMapping("/chkmcq")
+	String checkMcq(@RequestParam("radio") String radio,
+			@RequestParam("id") int id) {
+		
+		System.out.println("Id before increment = "+ id);
+		
+		System.out.println("Seleted Ans : " + radio);
+		McqTest mcqTest = mct.get(id);
+		
+		if(radio.equals(mcqTest.getAns())) {
+			
+			score=score+Integer.parseInt(mcqTest.getMrk());
+			
+		}
+		else {
+			
+			incorrectQues++;
+		}
+		
+		System.out.println("Count:"+count);
+		
+		id++;
+		
+		System.out.println("Id after increment = "+ id);
+		
+		if(id>count) 
+		{ 
+			return "redirect:/resultPage"; 
+		}
+		
+		return "redirect:/mcqtest/"+id;
+		
 	}
+	
+	@ResponseBody
+	@RequestMapping("/resultPage")
+	String resultPage() {
+		
+		System.out.println("Correct Questions : "+ score);
+		System.out.println("InCorrect Questions : "+ incorrectQues);
+		
+		return " Score = "+ score + " & Incorrect Answers : "+ incorrectQues;
+	}
+	
+	
+	
 	
 	
 	
