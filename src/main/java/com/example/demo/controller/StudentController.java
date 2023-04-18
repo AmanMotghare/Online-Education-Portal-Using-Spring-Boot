@@ -20,12 +20,14 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.example.demo.model.Course;
 import com.example.demo.model.CourseEnrolled;
 import com.example.demo.model.CourseTopic;
+import com.example.demo.model.LiveSession;
 import com.example.demo.model.Student;
 import com.example.demo.repository.CourseEnrollRepository;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.CourseTopicRepository;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.service.AuthenticateService;
+import com.example.demo.service.LiveSessionImpl;
 
 
 
@@ -245,5 +247,36 @@ public class StudentController {
 		
 	}
 	
+	@Autowired
+	LiveSessionImpl db1;
+	
+	@RequestMapping("all_live_sessions_student")
+	String allSessionsStudents(Model model, HttpSession session) {
+		
+		String studentEmail = (String) session.getAttribute("sessionStudent") ;
+		
+		if( studentEmail != null) {
+			//Fetching no. of courses enrolled by students
+			Student student = studRepo.findByEmail(studentEmail);
+			model.addAttribute("student",student);
+			
+			System.out.println("Enrolled courses upper : " + student.getCoursesEnrolledNo());
+			
+			//Fetching all published courses for students
+			List<Course> list = courseRepo.findByStatus("Published");
+			model.addAttribute("allCoursesList",list);
+			
+			List<LiveSession> list1 = db1.getAllLiveSession();	 
+			model.addAttribute("liveSessionList", list1);
+			
+			return "all_live_sessions_student";
+			
+		}
+		else {
+			return "redirect:/login-student";
+		}
+		
+		
+	}
 	
 }
