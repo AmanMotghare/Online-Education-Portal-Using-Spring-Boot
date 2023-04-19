@@ -17,10 +17,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.model.McqCreate;
 import com.example.demo.model.McqTest;
+import com.example.demo.model.Result;
 import com.example.demo.model.Student;
 import com.example.demo.model.StudentExam;
 import com.example.demo.repository.McqCreateRepo;
 import com.example.demo.repository.McqTestRepo;
+import com.example.demo.repository.ResultRepo;
+import com.example.demo.repository.StudentExamRepository;
 import com.example.demo.repository.StudentRepository;
 
 
@@ -173,9 +176,10 @@ public class AddMcqController {
 	private String title;
 	private String subject;
 	private static int count = 0;
-	private  int score = 0;
-	private  int incorrectQues = 0;
-	
+	private static int score = 0;
+	private static int correctQues = 0;
+	private static int incorrectQues = 0;
+	private String studentEmail;
 	
 	@RequestMapping("/showmcq/{title}/{subject}")
 	String showMCQS(@PathVariable("title") String title,
@@ -188,8 +192,7 @@ public class AddMcqController {
 	}
 	
 	@RequestMapping("/mcqtest/{id}")
-	String McqTest(@PathVariable ("id") int id ,Model model) {
-		
+	String McqTest(@PathVariable ("id") int id ,Model model,HttpSession session) {
 		
 	 	model.addAttribute("title", title);
 		model.addAttribute("subject", subject);
@@ -203,33 +206,129 @@ public class AddMcqController {
 		
 		model.addAttribute("mcqTest", mcqTest);
 		model.addAttribute("id", id);
+		studentEmail = (String) session.getAttribute("sessionStudent");
 		
-//		model.addAttribute("pid", id-1);
+		StudentExam stud_exam = examRepo.findByQueidAndStudentEmail(Integer.toString(mcqTest.getqId()), studentEmail);
+		System.out.println("stud_exam : "+ stud_exam);
+		
+		if(stud_exam==null) {
+			model.addAttribute("stud_exam","null");
+		}else if(stud_exam!=null) {
+			model.addAttribute("stud_exam","notnull");
+			model.addAttribute("stud_obj",stud_exam );	
+		}
+		
+		//to go previous
+		model.addAttribute("pid", id-1);
 		count = mct.size()-1;
-		
+		 
 //		System.out.println("No of question"+mct.size());
-		model.addAttribute("count",count);
+		model.addAttribute("count",mct.size()-1);
 		
 		return "/showMCQs";
 	} 
 	
+	@Autowired
+	StudentExamRepository examRepo;
+	
+	@Autowired
+	ResultRepo resultRepo;
+	
 	@RequestMapping("/chkmcq")
 	String checkMcq(@RequestParam("radio") String radio,
-			@RequestParam("id") int id) {
+			@RequestParam("id") int id,
+			@RequestParam("queId") String queId,
+			HttpSession session, Model model) {
+		
+		studentEmail = (String) session.getAttribute("sessionStudent"); 
+		//System.out.println(studentEmail);
 		
 		System.out.println("Id before increment = "+ id);
-		
+		System.out.println("Question Id : "+ queId);
 		System.out.println("Seleted Ans : " + radio);
+		
+		StudentExam stud_exam = examRepo.findByQueidAndStudentEmail(queId, studentEmail);
+		System.out.println("student ans : " + stud_exam);
+		
+		if(stud_exam==null) {
+			StudentExam exam =new StudentExam(queId, radio, studentEmail);
+			examRepo.save(exam);
+			System.out.println("Inserted because it was null");
+		}
+		else if(stud_exam!=null && stud_exam.getQueid().equals(queId) && stud_exam.getStudentEmail().equals(studentEmail)){
+			System.out.println("Cant insert because already exists");
+		}
+		else if(stud_exam!=null && !stud_exam.getQueid().equals(queId) && !stud_exam.getStudentEmail().equals(studentEmail)) {
+			StudentExam exam =new StudentExam(queId, radio, studentEmail);
+			examRepo.save(exam);
+			System.out.println("Inserted because 3rd condition");
+		}
+		
+//		model.addAttribute("stud_exam", stud_exam);
+		
+		//generating result
+		Result result;
+		
+		String selectedAns = radio;
+		
 		McqTest mcqTest = mct.get(id);
 		
-		if(radio.equals(mcqTest.getAns())) {
+		result = resultRepo.findByUsernameAndSubject(studentEmail, title);
+		
+		
+		if(selectedAns.equals(mcqTest.getAns())) {
 			
-			score=score+Integer.parseInt(mcqTest.getMrk());
+			
+			
+			if(result==null) {
+				score=score+Integer.parseInt(mcqTest.getMrk());
+				
+				correctQues++;
+				
+				result = new Result(studentEmail, title, score,correctQues);
+				System.out.println("Result: "+ result);
+				
+				resultRepo.save(result);
+				
+			}else {
+				
+				score=score+Integer.parseInt(mcqTest.getMrk());
+				
+				//correctQues++;
+				
+				result = new Result(result.getId(), studentEmail, title, score,correctQues);
+				System.out.println("Result: "+ result);
+				
+				resultRepo.save(result);
+				
+			}
 			
 		}
 		else {
+			if(result==null) {
+				score=score-Integer.parseInt(mcqTest.getMrk());
+				
+				incorrectQues++;
+				
+				result = new Result(studentEmail, title, score,correctQues);
+				System.out.println("Result: "+ result);
+				
+				resultRepo.save(result);
+				
+			}else {
+				
+				score=score-Integer.parseInt(mcqTest.getMrk());
+				
+				//correctQues++;
+				
+				result = new Result(result.getId(), studentEmail, title, score,correctQues);
+				System.out.println("Result: "+ result);
+				
+				resultRepo.save(result);
+				
+			}
 			
-			incorrectQues++;
+			
 		}
 		
 		System.out.println("Count:"+count);
@@ -246,6 +345,11 @@ public class AddMcqController {
 		return "redirect:/mcqtest/"+id;
 		
 	}
+	
+	
+	
+	
+	
 	
 	@ResponseBody
 	@RequestMapping("/resultPage")

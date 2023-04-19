@@ -162,45 +162,97 @@ body {
 				<b th:text="*{que}">Q. 
 					role?</b>
 			</div>
-			
-			<div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
+			<th:block th:object="${stud_exam}">
+			<div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options" >
 			
 			<input type="hidden" name="id"  th:value="${id}"> 
-			 
-				<label class="options"><p th:text="${mcqTest.op1}"></p> 
-				<input type="radio" name="radio" th:value="${mcqTest.op1}"> 
-				<span class="checkmark"></span>
-				</label> 
+			
+			<input type="hidden" name="queId"  th:value="${mcqTest.qId}"> 
+			
+			
+			 	<!-- <th:block th:if="${stud_exam}!='null'">  th:field="*{selectedAns}" -->
+			 	
+			 	<th:block th:switch="${stud_exam}">
+			 		<th:block th:case="'null'">
+		              
+					    <label class="options"><p th:text="${mcqTest.op1}"></p> 
+						<input type="radio" required name="radio" th:value="${mcqTest.op1}"> 
+						<span class="checkmark"></span>
+						</label> 
+						
+						<label class="options"><p th:text="${mcqTest.op2}"></p> 
+						<input type="radio" required name="radio" th:value="${mcqTest.op2}" > 
+						<span class="checkmark" ></span> 
+						</label> 
+						
+						<label class="options"><p th:text="${mcqTest.op3}"></p> 
+						<input type="radio" required name="radio" th:value="${mcqTest.op3}">
+						<span class="checkmark" ></span> 
+						</label> 
+						
+						<label class="options"><p th:text="${mcqTest.op4}"></p> 
+						<input type="radio" required name="radio" th:value="${mcqTest.op4}"> 
+						<span class="checkmark"></span> 
+						</label> 
+						
+						<label class="options"><p th:text="${mcqTest.op5}"></p> 
+						<input type="radio" required name="radio" th:value="${mcqTest.op5}">
+						<span class="checkmark"></span> 
+						</label>
+						
+						 
+					 </th:block>
+					 
+					 <th:block th:case="'notnull'" th:object="${stud_obj}">
+		              
+					  
+					    <label class="options"><p th:text="${mcqTest.op1}"></p> 
+						<input type="radio" required name="radio" 
+						th:value="${mcqTest.op1}" 
+						th:checked="${mcqTest.op1}==*{selectedAns} ? 'checked'"> 
+						<span class="checkmark"></span>
+						</label> 
+						
+						<label class="options"><p th:text="${mcqTest.op2}"></p> 
+						<input type="radio" required name="radio" th:value="${mcqTest.op2}"
+						th:checked="${mcqTest.op2}==*{selectedAns} ? 'checked'" > 
+						<span class="checkmark" ></span> 
+						</label> 
+						
+						<label class="options"><p th:text="${mcqTest.op3}"></p> 
+						<input type="radio" required name="radio" th:value="${mcqTest.op3}"
+						th:checked="${mcqTest.op3}==*{selectedAns} ? 'checked'">
+						<span class="checkmark" ></span> 
+						</label> 
+						
+						<label class="options"><p th:text="${mcqTest.op4}"></p> 
+						<input type="radio" required name="radio" th:value="${mcqTest.op4}"
+						th:checked="${mcqTest.op4}==*{selectedAns} ? 'checked'"> 
+						<span class="checkmark"></span> 
+						</label> 
+						
+						<label class="options"><p th:text="${mcqTest.op5}"></p> 
+						<input type="radio" required name="radio" th:value="${mcqTest.op5}"
+						th:checked="${mcqTest.op5 }==*{selectedAns} ? 'checked'">
+						<span class="checkmark"></span> 
+						</label> 
+						
+						<h1>You've already solved this Question.</h1>
+						
+					 </th:block>
+	            </th:block>
+			 	
 				
-				<label class="options"><p th:text="${mcqTest.op2}"></p> 
-				<input type="radio" name="radio" th:value="${mcqTest.op2}"> 
-				<span class="checkmark" ></span> 
-				</label> 
-				
-				<label class="options"><p th:text="${mcqTest.op3}"></p> 
-				<input type="radio" name="radio" th:value="${mcqTest.op3}">
-				<span class="checkmark" ></span> 
-				</label> 
-				
-				<label class="options"><p th:text="${mcqTest.op4}"></p> 
-				<input type="radio" name="radio" th:value="${mcqTest.op4}"> 
-				<span class="checkmark"></span> 
-				</label> 
-				
-				<label class="options"><p th:text="${mcqTest.op5}"></p> 
-				<input type="radio" name="radio" th:value="${mcqTest.op5}">
-				<span class="checkmark"></span> 
-				</label>
 			</div>
 		</div>
 		
 		<div class="d-flex align-items-center pt-3">
 		
-		<!-- <th:block th:if="${id>0}">
+		<th:block th:if="${id>0}">
 			<div id="prev">
 				<a class="btn btn-primary" th:href="@{/mcqtest/{id}(id=${pid})}" >Previous</a>   
 			</div>
-		</th:block> -->
+		</th:block> 
 		
 		<th:block th:if="${id} < ${count}">
 			<div class="ml-auto mr-sm-5">
