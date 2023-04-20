@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.example.demo.model.CodeGenerator;
 import com.example.demo.model.Course;
 import com.example.demo.model.CourseEnrolled;
 import com.example.demo.model.CourseTopic;
 import com.example.demo.model.LiveSession;
 import com.example.demo.model.Student;
+import com.example.demo.repository.CodeGenRepository;
 import com.example.demo.repository.CourseEnrollRepository;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.CourseTopicRepository;
@@ -277,6 +279,62 @@ public class StudentController {
 		}
 		
 		
+	}
+	
+	
+	
+	@Autowired
+	CodeGenRepository CodegenRepo;
+	
+	@RequestMapping("/codeverifier/{title}/{student}")
+	String codeVerify(Model model,@PathVariable("title") String title,
+			@PathVariable("student") String student,HttpSession session)
+	{
+		
+		session.setAttribute("student", student);
+		session.setAttribute("title", title);
+		
+		
+		return "CodeVerifierPage";
+	}
+	
+	@RequestMapping("/codeverified/{title}/{student}")
+	String codeVerified(@RequestParam("code") String newcode,CodeGenerator codegen,
+						HttpSession session,@PathVariable("title") String title,
+						@PathVariable("student") String student)
+	{
+		
+		String oldcode = codegen.getCode();
+		System.out.println(oldcode);
+		codegen = CodegenRepo.findByCode(oldcode);
+		int uid = codegen.getUser();
+		System.out.println(uid);
+		
+		if(uid!=1) {
+
+		if(newcode.equals(oldcode))
+		{
+			codegen = CodegenRepo.findByCode(oldcode);
+
+			codegen.setUser(1);
+
+			CodegenRepo.save(codegen);
+			
+			System.out.println("enter right code");
+
+			return "redirect:/enroll/{title}/{student}";
+		}
+		}
+		else
+		
+		{
+			session.setAttribute("Errorcode", "Code Already used!!");
+			
+			System.out.println("Wrong credential");
+			return "redirect:/codeverifier/{title}/{student}";
+		}
+		
+		return "redirect:/codeverifier/{title}/{student}";
 	}
 	
 }

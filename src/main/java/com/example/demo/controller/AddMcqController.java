@@ -256,9 +256,14 @@ public class AddMcqController {
 			System.out.println("Inserted because it was null");
 		}
 		else if(stud_exam!=null && stud_exam.getQueid().equals(queId) && stud_exam.getStudentEmail().equals(studentEmail)){
+			StudentExam exam = examRepo.findByQueid(queId);
+			
+			exam =new StudentExam(exam.getId(),queId, radio, studentEmail);
+			examRepo.save(exam);
 			System.out.println("Cant insert because already exists");
 		}
 		else if(stud_exam!=null && !stud_exam.getQueid().equals(queId) && !stud_exam.getStudentEmail().equals(studentEmail)) {
+			
 			StudentExam exam =new StudentExam(queId, radio, studentEmail);
 			examRepo.save(exam);
 			System.out.println("Inserted because 3rd condition");
@@ -275,6 +280,7 @@ public class AddMcqController {
 		
 		result = resultRepo.findByUsernameAndSubject(studentEmail, title);
 		
+		StudentExam exam = examRepo.findByQueid(queId);
 		
 		if(selectedAns.equals(mcqTest.getAns())) {
 			
@@ -290,23 +296,50 @@ public class AddMcqController {
 				
 				resultRepo.save(result);
 				
-			}else {
+			}
+			else if (result!=null && selectedAns.equals(mcqTest.getAns())) {
 				
 				score=score+Integer.parseInt(mcqTest.getMrk());
 				
-				//correctQues++;
-				
 				result = new Result(result.getId(), studentEmail, title, score,correctQues);
 				System.out.println("Result: "+ result);
-				
 				resultRepo.save(result);
+				
+				//correctQues++;
+//				if(selectedAns.equals(exam.getSelectedAns())) {
+//					
+//					result = new Result(result.getId(), studentEmail, title, score,correctQues);
+//					System.out.println("Result: "+ result);
+//					resultRepo.save(result);
+//				}
+				
+				
+				
 				
 			}
 			
+			/*
+			 * else if (result!=null && !selectedAns.equals(mcqTest.getAns())){
+			 * 
+			 * //score=score+Integer.parseInt(mcqTest.getMrk());
+			 * 
+			 * //correctQues++;
+			 * 
+			 * result = new Result(result.getId(), studentEmail, title, score,correctQues);
+			 * System.out.println("Result: "+ result);
+			 * 
+			 * resultRepo.save(result);
+			 * 
+			 * }
+			 */
+			 
+			
 		}
-		else {
+		else if (!selectedAns.equals(mcqTest.getAns())){
+			
 			if(result==null) {
-				score=score-Integer.parseInt(mcqTest.getMrk());
+				
+				//score=score-Integer.parseInt(mcqTest.getMrk());
 				
 				incorrectQues++;
 				
@@ -315,10 +348,12 @@ public class AddMcqController {
 				
 				resultRepo.save(result);
 				
-			}else {
+			}else if(result!=null && !selectedAns.equals(mcqTest.getAns())) {
 				
-				score=score-Integer.parseInt(mcqTest.getMrk());
-				
+				/*
+				 * if(score!=0 && score>0) { score=score-Integer.parseInt(mcqTest.getMrk()); }
+				 */
+				incorrectQues++;
 				//correctQues++;
 				
 				result = new Result(result.getId(), studentEmail, title, score,correctQues);
@@ -351,14 +386,15 @@ public class AddMcqController {
 	
 	
 	
-	@ResponseBody
+	
 	@RequestMapping("/resultPage")
-	String resultPage() {
+	String resultPage(Model model) {
 		
 		System.out.println("Correct Questions : "+ score);
 		System.out.println("InCorrect Questions : "+ incorrectQues);
-		
-		return " Score = "+ score + " & Incorrect Answers : "+ incorrectQues;
+		model.addAttribute("score",score);
+		model.addAttribute("Incorrect",incorrectQues);
+		return "result";
 	}
 	
 	

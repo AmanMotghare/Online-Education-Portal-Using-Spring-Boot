@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.model.Admin;
+import com.example.demo.model.CodeGenerator;
 import com.example.demo.model.Course;
 import com.example.demo.model.CourseTopic;
 import com.example.demo.repository.AdminRepository;
+import com.example.demo.repository.CodeGenRepository;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.CourseTopicRepository;
 import com.example.demo.service.AuthenticateService;
@@ -148,6 +150,38 @@ public class AdminController {
 			return "redirect:/login-admin";
 		}
 		
+	}
+	
+	@Autowired
+	CodeGenRepository CodegenRepo;
+	
+	@RequestMapping("/rancodeGen")
+	String codeGenerator(Model model)
+	{
+		CodeGenerator codGen = new CodeGenerator();
+		model.addAttribute("codegen", codGen);
+		return "randomCodeGen.html";
+	}
+	
+	@RequestMapping("/codegenerated")
+	String codeGeneratored(@ModelAttribute("codegen") CodeGenerator codGen,HttpSession session, Model model)
+	{
+		CodegenRepo.save(codGen);
+		System.out.println("code generated succssfully...");
+		
+		session.setAttribute("codeDone", "Code Generated Succssfully...");
+		
+		List<CodeGenerator> list =  CodegenRepo.findAll();
+		
+		int size = list.size();
+		
+		int codeIndex = list.size()-1;
+		
+		CodeGenerator cg = list.get(codeIndex);
+		
+		model.addAttribute("code", cg.getCode());
+		
+		return "redirect:/rancodeGen";
 	}
 	
 	
