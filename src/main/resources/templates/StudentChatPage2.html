@@ -198,7 +198,7 @@
                         class="icon icon-chart-bar-33"></i><span class="nav-text">Live Session</span></a>
                         <ul aria-expanded="false">
                             <li><a href="./chart-flot.html">Upcoming Live Session</a></li>
-                            <li><a th:href="@{/all_live_sessions_student}" >All Sessions</a></li>
+                            <li><a th:href="@{/all_live_sessions_student}">All Sessions</a></li>
                         
                         </ul>
                     </li>
@@ -308,80 +308,177 @@
         <!--**********************************
             Content body start
         ***********************************-->
-         <div class="content-body">
-            <div class="container-fluid">    
-                  
+        <div class="content-body">
+            <div class="container-fluid">
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
                             <h4>Hi, welcome back!</h4>
-                            <span class="ml-1">Datatable</span>
+                            <p class="mb-0">To your student dashboard</p>
                         </div>
                     </div>
-                    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                    <!-- <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
-                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Datatable</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Layout</a></li>
+                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Blank</a></li>
                         </ol>
-                    </div>
+                    </div> -->
                 </div>
-                <!-- row -->
-
 
                 <div class="row">
-                    <div class="col-12">
+                    
+                    <!-- <div class="col-lg-3 col-sm-6">
                         <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Basic Datatable</h4>
+                            <div class="stat-widget-one card-body">
+                                <div class="stat-icon d-inline-block">
+                                    <i class="ti-user text-primary border-primary"></i>
+                                </div>
+                                <div class="stat-content d-inline-block">
+                                    <div class="stat-text"></div>
+                                    <div class="stat-digit">15</div>
+                                </div>
                             </div>
-                            <div class="card-body" th:switch="${liveSessionList}">
-                                <h2 th:case="null">No users yet!</h2>
-                                <div class="table-responsive" th:case="*">
-                                    <table id="example" class="display" style="min-width: 845px">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Topic Name</th>
-                                                <th>Subject</th>
-                                                <th>Date</th>
-                                                <th>Time</th>
-                                                <!-- <th>Link</th> -->
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-	                                        <tr th:each="user : ${liveSessionList}">
-							                    <td th:text="${user.id}"></td>
-							                    <td th:text="${user.topic_name}"></td>
-							                    <td th:text="${user.subject}"></td>
-							                    <td th:text="${user.date}"></td>
-							                    <td th:text="${user.time}"></td>
-							                    <td>
-							                    	<a th:href="${user.link}" class="btn btn-secondary">Join</a>
-							                    </td>
-							                    
-							                    <!-- <td>
-							                    	<span>
-                                                        <a th:href="@{/editSession/{id}(id=${user.id})}" class="mr-4" data-toggle="tooltip"
-                                                            data-placement="top" title="Edit">
-                                                            <i class="fa fa-pencil color-muted"></i>
-                                                        </a>
-                                                        <a th:href="@{/deleteSession/{id}(id=${user.id})}" class="mr-4" data-toggle="tooltip"
-                                                            data-placement="top" title="Close">
-                                                            <i class="fa fa-close color-danger"></i>
-                                                        </a>
-                                                    </span>
-                                               </td> -->
-							                </tr>
-										</tbody>
-                           
-                                    </table>
+                        </div>
+                    </div> -->
+                    <!-- <div class="col-lg-3 col-sm-6">
+                        <div class="card">
+                            <div class="stat-widget-one card-body">
+                                <div class="stat-icon d-inline-block">
+                                    <i class="ti-layout-grid2 text-pink border-pink"></i>
+                                </div>
+                                <div class="stat-content d-inline-block">
+                                    <div class="stat-text">Enrolled Courses</div>
+                                    
+                                    <th:block th:object="${student}">
+                                    	<div class="stat-digit" th:text="${student.coursesEnrolledNo}"></div>
+                                    </th:block>
+                                    
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card">
+                            <div class="stat-widget-one card-body">
+                                <div class="stat-icon d-inline-block">
+                                    <i class="ti-money text-success border-success"></i>
+                                </div>
+                                <div class="stat-content d-inline-block">
+                                    <div class="stat-text">Courses Completed</div>
+                                    <div class="stat-digit">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="card">
+                            <div class="stat-widget-one card-body">
+                                <div class="stat-icon d-inline-block">
+                                    <i class="ti-link text-danger border-danger"></i>
+                                </div>
+                                <div class="stat-content d-inline-block">
+                                    <div class="stat-text">Complains</div>
+                                    <div class="stat-digit">2</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
                     
                 </div>
+               
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="card">
+                            
+                        
+                        
+                        <section style="background-color: #eee;">
+						  <div class="container py-5">
+						
+						
+						      <div class="col-md-6 col-lg-7 col-xl-8">
+						      
+						
+						        <ul class="list-unstyled" >
+						        
+						        
+						        
+						        <th:block th:each="c : ${allChats}">
+						        <th:block th:if="${c.studentMessage}!=null">
+						          <li class="d-flex justify-content-between mb-4">
+						            <img src="https://www.shareicon.net/data/256x256/2016/01/16/249030_nobita_256x256.png" alt="avatar"
+						              class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
+						              
+						            <div class="card w-100">
+						              <div class="card-header d-flex justify-content-between p-3">
+						                <p class="fw-bold mb-0"th:text="${session.sessionStudent}"></p>
+						                <p class="text-muted small mb-0"><i class="far fa-clock"></i></p>
+						              </div>
+						              
+						              <div class="card-body">
+						                <b><p class="mb-0" th:text=*{c.studentMessage}>
+						                  StudentMessagemet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+						                  labore et dolore magna aliqua.
+						                </p></b>
+						              </div>
+						              
+						            </div>
+						          </li>
+						          </th:block>
+						          <th:block th:if="${c.teacherMessage}!=null">
+							          <li class="d-flex justify-content-between mb-4">
+							            <div class="card w-100">
+							              <div class="card-header d-flex justify-content-between p-3">
+							                <p class="fw-bold mb-0" th:text="${teacher}"></p>
+							                <p class="text-muted small mb-0"><i class="far fa-clock"></i></p>
+							              </div>
+							              <div class="card-body">
+							                <b><p class="mb-0" th:text=*{c.teacherMessage}>
+							                 TeacherMessage iste natus error sit voluptatem accusantium doloremque
+							                  laudantium.
+							                </p></b>
+							              </div>
+							            </div>
+							            
+							            <img src="https://www.shareicon.net/data/256x256/2016/01/16/249032_teacher_256x256.png"
+							             alt="avatar"
+							              class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60">
+							          </li>
+						          </th:block>
+						          
+						          </th:block>
+						          
+						        <form action="" th:action="@{/savechat}" th:object="${chat}">
+						        
+						         <input type="hidden" th:field="*{id}" name="id" readonly>
+						          
+						         <input type="hidden" th:value=${teacher} name="teacherName" readonly>
+						        
+						       	 <input type="hidden" th:value=${session.sessionStudent} name="studentName" readonly><br/><br/>
+						          
+						          <li class="bg-white mb-3">
+						            <div class="form-outline">
+						              <textarea class="form-control" th:field="*{studentMessage}" id="textAreaExample2" rows="4" 
+						              placeholder="Write Your Message Here"></textarea>
+						            </div>
+						          </li>
+						          
+						          <button type="submit" class="btn btn-secondary" >Send Message</button>
+						         
+						       </form>
+						       </ul>
+						
+						      </div>
+						
+						    </div>
+						
+						  </div>
+						</section>
+                        </div>
+                    </div>
+                 
             </div>
         </div>
         <!--**********************************

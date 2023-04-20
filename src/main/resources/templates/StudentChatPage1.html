@@ -215,13 +215,9 @@
                                 class="icon icon-chart-bar-33"></i><span class="nav-text">Chats</span></a>
                         <ul aria-expanded="false">
                             <li><a th:href="@{/StudentChatPage1}">Start New Chat </a></li>
-                            <!-- <li><a th:href="@{/StudentChatPage2}">All Chats</a></li> -->
-                            <!-- <li><a href="./chart-chartjs.html">Chartjs</a></li>
-                            <li><a href="./chart-chartist.html">Chartist</a></li>
-                            <li><a href="./chart-sparkline.html">Sparkline</a></li>
-                            <li><a href="./chart-peity.html">Peity</a></li> -->
                         </ul>
                     </li>
+                    
                     <li class="nav-label">Components</li>
                     <li><a  href="javascript:void()" aria-expanded="false"><i
                                 class="icon icon-world-2"></i><span class="nav-text">Profile</span></a>
@@ -340,7 +336,7 @@
                             </div>
                         </div>
                     </div> -->
-                    <div class="col-lg-3 col-sm-6">
+                    <!-- <div class="col-lg-3 col-sm-6">
                         <div class="card">
                             <div class="stat-widget-one card-body">
                                 <div class="stat-icon d-inline-block">
@@ -383,7 +379,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     
                 </div>
                 <!-- <div class="row">
@@ -410,44 +406,32 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">All Courses</h4>
+                                <h4 class="card-title">All Teachers</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table student-data-table m-t-20">
                                         <thead>
                                             <tr>
-                                                <th>Course Title</th>
-                                                <th>Amount</th>
-                                                <th>Email</th>
-                                                <th>Date</th>
+                                                <th>ID</th>
+                                                <th>Teacher's Name</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         
-                                            <tr th:each="c : ${allCoursesList}">
-                                                <td th:text="${c.courseTitle}">
-                                                    Course Tilte
+                                            <tr th:each="t : ${teachers}">
+                                                <td th:text="${tStat.index+1}">
+                                                   ID
                                                 </td>
                                                 
-                                                <td th:text="${c.amount}">
-                                                    Course Amount
-                                                </td>
-                                                
-                                                <td th:text="${c.authorEmail}">
-                                                    Author Email
-                                                </td>
-                                                <td th:text="${c.date}">
-                                                    Date
+                                                <td th:text="${t.name}">
+                                                    Teacher's Name
                                                 </td>
                                                 
                                                 <td>
-	                                               <a th:href="@{/codeverifier/{title}/{student}
-	                                               (title=${c.courseTitle}, student=${session.sessionStudent})}" 
-	                                               class="btn btn-secondary">Enroll</a>
-							                      
-                                                </td>
+	                                               <a th:href="@{/StudentChatPage2/{teacher}(teacher=${t.email})}" class="btn btn-secondary" >Start Chat </a>
+							                    </td>
                                                 
                                                 <!-- <td>
                                                     <span class="badge badge-primary">Complete</span>
@@ -728,14 +712,14 @@
                         </div>
                     </div> -->
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-lg-4">
                         <div class="card">
                             <div class="card-body">
                                 <div class="year-calendar"></div>
                             </div>
                         </div>
-                        <!-- /# card -->
+                        /# card
                     </div>
                     <div class="col-lg-8">
                         <div class="card">
@@ -859,7 +843,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <!--**********************************
