@@ -1,1 +1,1 @@
-# Online-Education-Website-Using-Spring-Boot
+# Online-Education-Portal-Using-Spring-Boot
